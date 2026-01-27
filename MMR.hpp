@@ -1,14 +1,11 @@
 // Memory Morphing Representation (MMR)
 // Header-only library: compact morph storage, streaming & runtime application.
-//
-// Copyright (c) 2025
-// Author: José Ignacio Falla García
-//
+
 // Usage:
 //  - Include mmr.hpp in engine code.
 //  - Construct MMR::Manager, load codebooks/basis via LoadFromFile or Streamer.
 //  - Request ApplyMorph(instance) each frame (returns delta to add to base VBO).
-//
+
 // Notes:
 //  - This is a blueprint/prototype with production-quality intent but needs
 //    engine glue (GPU upload, ASTRA streaming, SPU microjobs).
@@ -634,5 +631,6 @@ int main_test_mmr() {
 #endif // MMR_SELF_TEST
 
 } // namespace MMR
+
 
 #endif // MMR_HPP
