@@ -33,9 +33,7 @@
 
 namespace MMR {
 
-// ------------------------------
 // Basic math helpers (simple)
-// ------------------------------
 struct Vec3 {
     float x,y,z;
     Vec3():x(0),y(0),z(0){}
@@ -47,9 +45,7 @@ struct Vec3 {
     float length() const { return std::sqrt(x*x+y*y+z*z); }
 };
 
-// ------------------------------
 // Configuration constants
-// ------------------------------
 // Tweak these for PS3 (smaller patch sizes) or PC (larger patches).
 struct Config {
     static constexpr uint16_t PATCH_VERTEX_CAPACITY = 256; // vertices per patch (typical)
@@ -58,12 +54,10 @@ struct Config {
     static constexpr uint32_t SERIAL_VERSION = 1;
 };
 
-// ------------------------------
 // Compressed per-vertex delta representation
 // - Quantize float delta into signed integer with scale.
 // - Stores 3 components (x,y,z) as int16_t by default.
 // - Using int16 allows +/-32767 steps; scale chosen per patch.
-// ------------------------------
 #pragma pack(push,1)
 struct PackedDelta {
     int16_t dx;
@@ -73,7 +67,6 @@ struct PackedDelta {
 };
 #pragma pack(pop)
 
-// ------------------------------
 // Patch: contiguous range of vertices with compact deltas
 // Each Patch encodes deltas relative to base mesh for a small vertex range.
 // We store:
@@ -82,7 +75,6 @@ struct PackedDelta {
 //  - quantizationScale (float) used to decode int16 -> float
 //  - array of PackedDelta (vertexCount entries)
 // Patches are the unit of streaming / eviction.
-// ------------------------------
 struct Patch {
     uint32_t startIndex;       // index into base vertex array
     uint16_t vertexCount;      // number of vertices encoded
@@ -100,14 +92,12 @@ struct Patch {
         : startIndex(start), vertexCount(count), quantScale(scale), data(count) {}
 };
 
-// ------------------------------
 // MorphBasis: collection of patches that together form a morph basis.
 // A basis can be used to reconstruct a morph by applying weighted combination
 // of patches (or single basis can represent full morph).
 //
 // For simplicity, here a MorphBasis is a named set of patch IDs and a global weight.
 // In production, bases can have hierarchical detail (multiscale).
-// ------------------------------
 struct MorphBasis {
     std::string name;
     float globalWeight = 1.0f;
@@ -116,11 +106,9 @@ struct MorphBasis {
     uint64_t versionTag = 0;
 };
 
-// ------------------------------
 // GeometryBuffer (consumer) simplified representation
 // - The engine will pass a pointer to VBO (vertex positions) or a mutable vector
 // - In practice, you'd map GPU buffer and write deltas into it or schedule GPU skinning.
-// ------------------------------
 struct GeometryBuffer {
     // pointer to floats x,y,z sequentially (size >= vertexCount*3)
     float *positions; // ownership not assumed
@@ -634,3 +622,4 @@ int main_test_mmr() {
 
 
 #endif // MMR_HPP
+
