@@ -117,7 +117,6 @@ struct GeometryBuffer {
     GeometryBuffer(float* p, uint32_t vc):positions(p),vertexCount(vc){}
 };
 
-// ------------------------------
 // Manager: central MMR manager
 // Responsibilities:
 //  - Hold patch storage (loaded / streaming)
@@ -126,7 +125,6 @@ struct GeometryBuffer {
 //  - Asynchronous streaming interface (hooks to ASTRA or custom streamer)
 //  - LRU eviction, stats
 // Thread-safe partial API (read-mostly by renderer).
-// ------------------------------
 class Manager {
 public:
     Manager();
@@ -231,10 +229,7 @@ private:
     void EvictLRUUntil(size_t targetBytes);
 };
 
-// ------------------------------
 // Implementation
-// ------------------------------
-
 inline Manager::Manager()
  : m_memoryBytes(0), m_nextPatchID(1) // start IDs at 1
 {
@@ -557,9 +552,7 @@ inline void Manager::DumpState(std::ostream& os) {
     os << "Memory bytes approx: " << m_memoryBytes.load() << "\n";
 }
 
-// ------------------------------
 // Example usage & self-test
-// ------------------------------
 #ifdef MMR_SELF_TEST
 
 #include <random>
@@ -619,7 +612,4 @@ int main_test_mmr() {
 #endif // MMR_SELF_TEST
 
 } // namespace MMR
-
-
 #endif // MMR_HPP
-
